@@ -1,0 +1,19 @@
+- name: copy file repository default setup mariadb
+  template:
+    src: mariadb.repo
+    dest: /etc/yum.repos.d/mariadb.repo
+
+- name: Clear cache yum
+  shell: yum clean all
+
+- name: MariaDB packages are installed
+  yum: pkg={{ item }}
+  with_items:
+    - MariaDB-cassandra-engine
+    - MariaDB-client
+    - MariaDB-common
+    - MariaDB-compat
+    - MariaDB-connect-engine
+    - MariaDB-devel
+    - MariaDB-oqgraph-engine
+    - galera*

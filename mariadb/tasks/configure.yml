@@ -1,0 +1,75 @@
+- name: Delete all file data in path /var/lib/mysql/
+  shell: /bin/rm -rf /var/lib/mysql/*
+
+- name: Create folder /home/mysql 
+  file: 
+    path: /home/mysql
+    owner: root 
+    group: root
+    mode: 0755 
+    state: directory
+
+- name: Chown changing ownership mysql to home directory
+  file:
+    dest: /home/mysql/
+    state: directory
+    owner: mysql
+    group: mysql
+    recurse: yes
+
+- name: Inserting a line after a pattern in Ansible example 
+  lineinfile:
+    path: /etc/my.cnf.d/server.cnf
+    insertafter: '\[mariadb\]'
+    line: "{{ item }}"
+  with_items:
+    - user=mysql
+    - default-storage-engine=innodb
+    - datadir=/home/mysql
+    - query_cache_type=0
+    - max_connections = 700
+    - max_allowed_packet = 1000M
+    - thread_cache_size = 16K
+    - query_cache_size = 256M
+    - query_cache_limit = 32M
+    - table_open_cache = 2048
+    - key_buffer=256M
+    - key_buffer_size = 1024M
+    - innodb_file_per_table
+    - innodb_log_file_size=100M
+    - innodb_flush_log_at_trx_commit=2
+    - innodb_autoinc_lock_mode=2
+    - innodb_locks_unsafe_for_binlog=1
+    - innodb_buffer_pool_size=7G
+
+- name: Initialize the data directory, including the tables in the mysql system database
+  shell: mysql_install_db --user=mysql --basedir=/usr --datadir=/home/mysql
+
+- name: Edit and change ProtectHome
+  replace:
+    path: /lib/systemd/system/mariadb.service
+    regexp: 'ProtectHome=true'
+    replace: 'ProtectHome=false'
+
+- name: Make a local override of the service mariadb.service file
+  copy: 
+    src: /lib/systemd/system/mariadb.service
+    dest: /etc/systemd/system/mariadb.service
+    remote_src: yes
+
+- name: Ensure daemon-reload to pick up config changes
+  systemd:
+    daemon_reload: yes
+
+- name: Enable service mariadb and ensure it is not masked
+  systemd:
+    name: mariadb
+    enabled: yes
+    masked: no
+
+- name: Restart the service mariadb
+  systemd:
+    state: restarted
+    name: mariadb
+    enabled: true
+

@@ -1,0 +1,30 @@
+- name: Set password default mysqladmin use for user root
+  command: mysqladmin password {{mariadb_admin_password}}
+
+- name: Grant permissions user root
+  command: mysql --user={{mariadb_admin_user}} --password={{mariadb_admin_password}} -e "{{ item }}"
+  with_items:
+    - GRANT ALL PRIVILEGES ON *.* TO '"{{mariadb_admin_user}}"'@'%' IDENTIFIED BY '"{{mariadb_admin_password}}"';
+
+- name: Reload privilege tables
+  command: mysql --user={{mariadb_admin_user}} --password={{mariadb_admin_password}} -e "{{ item }}"
+  with_items:
+    - FLUSH PRIVILEGES;
+
+- name: Remove test database and access to it
+  command: mysql --user={{mariadb_admin_user}} --password={{mariadb_admin_password}} -e "{{ item }}"
+  with_items:
+    - DROP DATABASE IF EXISTS test;
+    - DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%';
+
+- name: Enable MySQL query log
+  command: mysql --user={{mariadb_admin_user}} --password={{mariadb_admin_password}} -e "{{ item }}"
+  with_items:
+    - SET GLOBAL general_log = 'ON';
+
+- name: Restart the service mariadb
+  systemd:
+    state: restarted
+    name: mariadb
+    enabled: true
+

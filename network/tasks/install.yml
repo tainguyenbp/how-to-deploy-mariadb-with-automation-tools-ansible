@@ -1,8 +1,0 @@
-- name: Install service network packages
-  yum: pkg={{ item }} state=installed
-  with_items:
-   - setuptool
-   - system-config-securitylevel-tui
-   - authconfig
-#   - system-config-network-tui
-   - ntsysv

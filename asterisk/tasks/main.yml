@@ -1,0 +1,6 @@
+- set_fact: role_name=asterisk
+
+##################################################
+###### Install asterisk version 13.23.1
+- include: install.yml
+

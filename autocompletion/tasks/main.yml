@@ -1,0 +1,5 @@
+- set_fact: role_name=autocompletion
+
+##################################################
+#### Install bash auto completion
+- include: install.yml

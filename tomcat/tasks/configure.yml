@@ -1,0 +1,12 @@
+- name: Create folders /home/setup-tomcat/ contain file config service tomcat.
+  file: path={{ item.path }} mode={{ item.mode }} state=directory owner=root group=root
+  with_items:
+    - { path: "/home/setup-tomcat/", mode: 755 }
+
+- name: Extract folder contain file config service tomcat.
+  unarchive:
+    src=setup-tomcat-https.tar.gz
+    dest=/home/setup-tomcat/
+
+- name: Execute the script install service tomcat.
+  command: /home/setup-tomcat/tomcat-https/install.sh

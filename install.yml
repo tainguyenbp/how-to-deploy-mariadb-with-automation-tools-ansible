@@ -1,3 +1,11 @@
  - hosts: server5
    roles:
+    - basic
+    - java
+    - autocompletion
+    - network
+    - vim
+    - snmpv2
     - mariadb
+    - tomcat
+    - asterisk

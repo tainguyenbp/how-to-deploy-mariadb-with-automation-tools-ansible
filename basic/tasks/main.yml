@@ -1,0 +1,5 @@
+- set_fact: role_name=basic
+
+##################################################
+##### Install all package basic
+- include: install.yml

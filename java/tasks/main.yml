@@ -1,0 +1,5 @@
+- set_fact: role_name=java
+
+##################################################
+#### Install java-1.7
+- include: install.yml

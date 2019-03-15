@@ -1,0 +1,6 @@
+- set_fact: role_name=snmpv2
+
+##################################################
+#### Install, configure and secure webserver
+- include: install.yml
+- include: configure.yml

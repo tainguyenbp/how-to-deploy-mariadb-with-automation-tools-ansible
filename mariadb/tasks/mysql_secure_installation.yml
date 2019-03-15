@@ -1,6 +1,11 @@
 - name: Set password default mysqladmin use for user root
   command: mysqladmin password {{mariadb_admin_password}}
 
+- name: Create new database asterisk
+  command: mysql --user={{mariadb_admin_user}} --password={{mariadb_admin_password}} -e "{{ item }}"
+  with_items:
+    - create database asterisk;
+
 - name: Grant permissions user root
   command: mysql --user={{mariadb_admin_user}} --password={{mariadb_admin_password}} -e "{{ item }}"
   with_items:

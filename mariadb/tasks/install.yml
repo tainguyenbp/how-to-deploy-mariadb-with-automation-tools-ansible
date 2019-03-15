@@ -7,8 +7,11 @@
   shell: yum clean all
 
 - name: MariaDB packages are installed
-  yum: pkg={{ item }}
+  yum:
+    pkg: '{{ item }}'
+    state: installed
   with_items:
+    - MySQL-python
     - MariaDB-cassandra-engine
     - MariaDB-client
     - MariaDB-common

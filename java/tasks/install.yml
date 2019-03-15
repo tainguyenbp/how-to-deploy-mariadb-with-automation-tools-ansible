@@ -1,0 +1,5 @@
+- name: Java-1.7 packages are installed
+  yum: pkg={{ item }} state=installed
+  with_items:
+    - java-1.7*
+

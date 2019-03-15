@@ -1,0 +1,5 @@
+- set_fact: role_name=network
+
+##################################################
+#### Install, configure and secure webserver
+- include: install.yml

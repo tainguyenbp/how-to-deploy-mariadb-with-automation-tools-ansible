@@ -1,9 +1,0 @@
-- name: Install service snmp packages
-  yum: pkg={{ item }} state=installed
-  with_items:
-   - net-snmp
-   - net-snmp-devel
-   - net-snmp-utils
-   - bzip2-devel
-   - newt-devel
-   - lm_sensors-devel

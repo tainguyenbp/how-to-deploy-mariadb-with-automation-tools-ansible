@@ -1,5 +1,0 @@
-- name: Install bash auto completion
-  yum: pkg={{ item }} state=installed
-  with_items:
-   - bash-completion
-   - bash-completion-extras

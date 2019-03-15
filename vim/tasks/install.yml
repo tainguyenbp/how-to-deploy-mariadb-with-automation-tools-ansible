@@ -1,7 +1,0 @@
-- name: Install service vim packages
-  yum: pkg={{ item }} state=installed
-  with_items:
-   - vim-X11
-   - vim-common
-   - vim-enhanced
-   - vim-minimal
